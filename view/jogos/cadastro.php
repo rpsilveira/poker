@@ -61,18 +61,16 @@
 
       if ($codigo == 0) {
         if ($jogo->incluir()) {
-          $_SESSION["busca1"] = $_POST["dt_jogo"];
-          $_SESSION["busca2"] = $_POST["dt_jogo"];
-          $_SESSION["busca3"] = 'T';  /*ambos*/
-        
-          echo "<script>window.location = 'listagem.php';</script>";
+          $codigo = $jogo->getJogoId();
+          
+          echo "<script>window.location = 'cadastro.php?id=$codigo&target=tickets';</script>";
         }
         else
           echo "<script>alert('Erro ao incluir!')</script>";
       }
       elseif ($jogo->getFinalizado() == 0) {
         if ($jogo->alterar())
-          echo "<script>window.location = 'listagem.php';</script>";
+          echo "<script>window.location = 'cadastro.php?id=$codigo&target=tickets';</script>";
         else
           echo "<script>alert('Erro ao alterar!')</script>";
       }
@@ -217,7 +215,7 @@
 
     <form id="form_cad" class="form" role="form" method="post">
     
-      <ul id="tabs_ped" class="nav nav-tabs" data-tabs="tabs" style="border:0px;">
+      <ul id="tabs_jogo" class="nav nav-tabs" data-tabs="tabs" style="border:0px;">
         <li class="<?php echo ($target != 'tickets') ? 'active' : '';?>"><a href="#tab_dados" data-toggle="tab">Dados</a></li>
         <li class="<?php echo ($target == 'tickets') ? 'active' : '';?>"><a href="#tab_tickets" data-toggle="tab">Tickets</a></li>
       </ul>
@@ -302,10 +300,10 @@
                         <div class="btn-group btn-group-sm">
                         <?php if ($row["BAIXADO"] == 0){ ?>
                           <a class="btn btn-danger" title="Remover jogador" onClick="removeItem(this);"><span class="glyphicon glyphicon-trash"></span></a>
-                          <a class="btn btn-info" title="Visualizar lançamentos" href="lancamentos.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-th-list"></span></a>
+                          <a class="btn btn-info" title="Lançamentos" href="lancamentos.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-th-list"></span></a>
                           <a class="btn btn-success" title="Finalizar ticket" href="finaliza.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-ok"></span></a>
                         <?php } else { ?>
-                          <a class="btn btn-info" title="Visualizar lançamentos" href="lancamentos.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-th-list"></span></a>
+                          <a class="btn btn-info" title="lançamentos" href="lancamentos.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-th-list"></span></a>
                           <a class="btn btn-warning" title="Visualizar fechamento" href="finaliza.php?id=<?php echo $row["TICKET_ID"]; ?>&jogo=<?php echo $jogo->getJogoId(); ?>"><span class="glyphicon glyphicon-usd"></span></a>
                         <?php } ?>
                         </div>
